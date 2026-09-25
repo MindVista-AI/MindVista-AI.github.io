@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add('js');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MindVista-AI · 新智视觉 — 洞察心智全景，开拓人工智能新视界</title>
+<meta name="description" content="MindVista-AI（新智视觉）：将视觉注意力机制与认知推理相结合，具备主动感知、逐步推理与动态决策能力，像人一样「看哪里、想什么」地完成多模态理解。">
+<meta name="author" content="MindVista-AI">
+<meta property="og:title" content="MindVista-AI · 新智视觉">
+<meta property="og:description" content="洞察心智全景，开拓人工智能新视界。明眸善断，思理通达。">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F4F6F7">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F6F7'/><path d='M8 23L16 11L25 20' stroke='%230C6270' stroke-width='1.5' fill='none'/><circle cx='8' cy='23' r='2.4' fill='%230C6270'/><circle cx='16' cy='11' r='3.2' fill='%23B4690E'/><circle cx='25' cy='20' r='2.4' fill='%230C6270'/></svg>">
+<style>
+  /* ---------- tokens ---------- */
+  :root{
+    --paper:#F4F6F7;
+    --surface:#FFFFFF;
+    --ink:#11161B;
+    --ink-2:#565F6B;
+    --ink-3:#68717C;
+    --line:#D9DEE4;
+    --line-soft:#E6EAEE;
+    --teal:#0C6270;
+    --amber:#B4690E;
+
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Source Han Serif SC","Noto Serif CJK SC","Songti SC","STSong",Georgia,"Times New Roman","SimSun",serif;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+
+    --wrap:1120px;
+    --pad:clamp(20px,5vw,48px);
+  }
+
+  /* ---------- base ---------- */
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.85;
+    font-weight:400;
+    letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3,p,ul,li,figure,figcaption{margin:0;padding:0;}
+  ul{list-style:none;}
+  a{color:inherit;text-decoration:none;}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+  strong{font-weight:600;color:var(--ink);}
+
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);}
+
+  /* utility type */
+  .mono{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  .mark{
+    width:56px;height:1px;
+    background:linear-gradient(90deg,var(--amber) 0 12px,var(--line) 12px 100%);
+    margin-bottom:20px;
+  }
+
+  /* ---------- header ---------- */
+  .site-head{border-bottom:1px solid var(--line-soft);}
+  .site-head .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;
+    padding-top:18px;padding-bottom:18px;
+  }
+  .brand{display:flex;align-items:baseline;gap:12px;min-width:0;}
+  .brand .en{
+    font-family:var(--mono);font-size:.86rem;font-weight:600;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink);
+  }
+  .brand .cn{
+    font-family:var(--serif);font-size:.86rem;letter-spacing:.22em;
+    color:var(--ink-2);
+    padding-left:12px;border-left:1px solid var(--line);
+  }
+  /* ---------- hero ---------- */
+  .hero{padding-top:clamp(56px,9vw,104px);padding-bottom:clamp(56px,8vw,96px);}
+  .hero .grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+    gap:clamp(36px,5vw,72px);
+    align-items:center;
+  }
+  .eyebrow{margin-bottom:22px;color:var(--teal);}
+  .display{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2rem,4.9vw,3.35rem);
+    line-height:1.3;
+    letter-spacing:.02em;
+    color:var(--ink);
+  }
+  .display .ln{display:block;}
+  .lead{
+    margin-top:26px;
+    font-size:clamp(1rem,1.25vw,1.06rem);
+    line-height:1.95;
+    color:var(--ink-2);
+    max-width:34em;
+  }
+  /* ---------- attention plate (signature) ---------- */
+  .plate{margin:0;}
+  .plate svg{display:block;width:100%;height:auto;}
+  .plate-cap{
+    display:flex;align-items:baseline;gap:12px;
+    margin-top:14px;
+    font-size:.86rem;line-height:1.7;color:var(--ink-2);
+  }
+  .plate-cap .mono{white-space:nowrap;color:var(--teal);}
+
+  .p-grid{fill:#E2E7EB;}
+  .p-frame{fill:#FFFFFF;stroke:#DFE4E9;stroke-width:1;}
+  .p-reg{stroke:#C9D2D9;stroke-width:1;fill:none;}
+  .p-chain{fill:none;stroke:var(--teal);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;}
+  .p-node{fill:#FFFFFF;stroke:var(--teal);stroke-width:1.4;}
+  .p-core{fill:var(--amber);}
+  .p-txt{font-family:var(--mono);font-size:12px;letter-spacing:.04em;fill:var(--teal);}
+  .pop-init,.fade-init{transform-box:fill-box;transform-origin:center;}
+
+  /* ---------- feature ---------- */
+  .feature{
+    background:var(--surface);
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line-soft);
+    padding-top:clamp(56px,8vw,96px);
+    padding-bottom:clamp(56px,8vw,96px);
+  }
+  .h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(1.45rem,2.6vw,2rem);
+    line-height:1.5;
+    letter-spacing:.02em;
+    margin-top:20px;
+  }
+  .feature .body{
+    margin-top:22px;
+    color:var(--ink-2);
+    max-width:38em;
+    line-height:2;
+  }
+  .pillars{
+    margin-top:clamp(40px,5vw,60px);
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(28px,4vw,56px);
+  }
+  .pillar{border-top:1px solid var(--line);padding-top:22px;}
+  .pillar .idx{color:var(--amber);}
+  .pillar h3{
+    margin-top:14px;
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(1.08rem,1.7vw,1.28rem);
+    letter-spacing:.04em;
+    line-height:1.6;
+  }
+  .pillar .sub{
+    margin-top:6px;
+    font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  }
+  .pillar p{margin-top:14px;color:var(--ink-2);font-size:.96rem;line-height:1.95;}
+
+  .caps{
+    margin-top:clamp(40px,5vw,56px);
+    padding-top:22px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:12px 0;
+  }
+  .caps li{
+    padding:0 26px;
+    border-left:1px solid var(--line);
+    line-height:1.6;
+  }
+  .caps li:first-child{padding-left:0;border-left:0;}
+  .caps .cn{display:block;font-size:.95rem;color:var(--ink);letter-spacing:.04em;}
+  .caps .en{
+    display:block;margin-top:4px;
+    font-family:var(--mono);font-size:.66rem;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---------- footer ---------- */
+  .site-foot{padding-top:40px;padding-bottom:48px;}
+  .site-foot .wrap{
+    display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+    gap:12px 32px;
+  }
+  .site-foot .line{font-size:.86rem;color:var(--ink-2);}
+
+  /* ---------- motion ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+  @keyframes popIn{from{opacity:0;transform:scale(.4);}to{opacity:1;transform:scale(1);}}
+  @keyframes drawLine{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+
+  html.js .stg{opacity:0;}
+  html.js .fade-init{opacity:0;}
+  html.js .pop-init{opacity:0;}
+
+  html.js .in .stg{animation:rise .85s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s);}
+  html.js .in .fade-init{animation:fadeIn .9s ease both;animation-delay:var(--d,0s);}
+  html.js .in .pop-init{animation:popIn .55s cubic-bezier(.2,.8,.3,1) both;animation-delay:var(--d,0s);}
+  html.js .in .p-chain{stroke-dasharray:1;animation:drawLine 1.5s cubic-bezier(.35,.05,.3,1) both;animation-delay:.75s;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .hero .grid{grid-template-columns:minmax(0,1fr);}
+    .hero-copy{order:1;}
+    .plate{order:2;max-width:560px;}
+    .pillars{grid-template-columns:minmax(0,1fr);gap:32px;}
+  }
+  @media (max-width:600px){
+    .brand .cn{display:none;}
+    .caps{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      column-gap:22px;
+      padding-top:0;border-top:0;
+    }
+    .caps li{padding:14px 0 0;border-left:0;border-top:1px solid var(--line);}
+    .site-foot .wrap{flex-direction:column;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html.js .stg,html.js .fade-init,html.js .pop-init{opacity:1;}
+    html.js .in .stg,html.js .in .fade-init,html.js .in .pop-init,html.js .in .p-chain{animation:none;}
+    html.js .in .p-chain{stroke-dasharray:none;stroke-dashoffset:0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="brand">
+      <span class="en">MindVista-AI</span>
+      <span class="cn">新智视觉</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap grid">
+
+      <div class="hero-copy">
+        <div class="mark stg" style="--d:.05s"></div>
+        <div class="eyebrow mono stg" style="--d:.12s">思考式观察 · Thinking Vision</div>
+        <h1 class="display stg" style="--d:.2s">
+          <span class="ln">洞察心智全景，</span>
+          <span class="ln">开拓人工智能新视界</span>
+        </h1>
+        <p class="lead stg" style="--d:.32s">
+          让模型先决定「看哪里」，再决定「想什么」——把视觉注意力机制接入认知推理，
+          在多模态理解中完成逐步推理与动态决策。
+        </p>
+      </div>
+
+      <figure class="plate stg" style="--d:.3s">
+        <svg viewBox="0 0 560 420" role="img" aria-label="注意力图版：模型依次注视四个显著位置，并以推理链连接，形成逐步推理路径。">
+          <defs>
+            <pattern id="pv-dots" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="12" cy="12" r="1.4" class="p-grid"></circle>
+            </pattern>
+            <radialGradient id="pv-amber">
+              <stop offset="0%" stop-color="#B4690E" stop-opacity=".28"></stop>
+              <stop offset="55%" stop-color="#B4690E" stop-opacity=".09"></stop>
+              <stop offset="100%" stop-color="#B4690E" stop-opacity="0"></stop>
+            </radialGradient>
+            <radialGradient id="pv-teal">
+              <stop offset="0%" stop-color="#0C6270" stop-opacity=".16"></stop>
+              <stop offset="100%" stop-color="#0C6270" stop-opacity="0"></stop>
+            </radialGradient>
+          </defs>
+
+          <!-- plate -->
+          <rect class="p-frame" x="0.5" y="0.5" width="559" height="419"></rect>
+          <rect x="0.5" y="0.5" width="559" height="419" fill="url(#pv-dots)"></rect>
+
+          <!-- registration marks -->
+          <g class="p-reg">
+            <path d="M20 34V20h14"></path><path d="M540 20h-14v14"></path>
+            <path d="M526 400h14v-14"></path><path d="M34 386v14h-14"></path>
+          </g>
+
+          <!-- saliency fields -->
+          <g class="fade-init" style="--d:.7s">
+            <circle cx="224" cy="150" r="120" fill="url(#pv-amber)"></circle>
+          </g>
+          <g class="fade-init" style="--d:1.35s">
+            <circle cx="372" cy="250" r="100" fill="url(#pv-teal)"></circle>
+          </g>
+
+          <!-- reasoning chain -->
+          <polyline class="p-chain" pathLength="1" points="96,318 224,150 372,250 470,104"></polyline>
+
+          <!-- fixations 1-4 -->
+          <g class="pop-init" style="--d:.72s">
+            <circle class="p-node" cx="96" cy="318" r="7"></circle>
+            <circle class="p-core" cx="96" cy="318" r="2.6"></circle>
+            <text class="p-txt" x="72" y="340">1</text>
+          </g>
+          <g class="pop-init" style="--d:1.12s">
+            <circle class="p-node" cx="224" cy="150" r="7"></circle>
+            <circle class="p-core" cx="224" cy="150" r="2.6"></circle>
+            <text class="p-txt" x="238" y="139">2</text>
+          </g>
+          <g class="pop-init" style="--d:1.52s">
+            <circle class="p-node" cx="372" cy="250" r="7"></circle>
+            <circle class="p-core" cx="372" cy="250" r="2.6"></circle>
+            <text class="p-txt" x="386" y="272">3</text>
+          </g>
+          <g class="pop-init" style="--d:1.92s">
+            <circle class="p-node" cx="470" cy="104" r="8.5"></circle>
+            <circle class="p-core" cx="470" cy="104" r="3.2"></circle>
+            <text class="p-txt" x="452" y="88">4</text>
+          </g>
+        </svg>
+        <figcaption class="plate-cap">
+          <span class="mono">Fig. 01</span>
+          <span>先决定看哪里，再决定想什么：视觉注意力与推理链的耦合</span>
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ============ FEATURE ============ -->
+  <section class="feature">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="mark stg" style="--d:.05s"></div>
+        <div class="eyebrow mono stg" style="--d:.12s">Core Capability · 新智视觉</div>
+        <h2 class="h2 stg" style="--d:.2s">新智视觉：明眸善断，思理通达</h2>
+        <p class="body stg" style="--d:.3s">
+          将<strong>视觉注意力机制</strong>与<strong>认知推理</strong>相结合，赋予模型「思考式观察」的特质：
+          不再被动地读完一整幅画面，而是主动地看、边看边想。模型因此具备主动感知、推理与动态决策的能力，
+          能够像人一样「看哪里、想什么」地完成多模态理解与逐步推理。
+        </p>
+      </div>
+
+      <div class="pillars reveal">
+        <article class="pillar stg" style="--d:.1s">
+          <span class="idx mono">01 / 明眸</span>
+          <h3>明眸善断</h3>
+          <div class="sub">Visual Attention · Active Perception</div>
+          <p>目光先于结论。模型主动分配注意力，把注视落在真正承载信息的位置，而不是均匀地扫过整个视野。</p>
+        </article>
+        <article class="pillar stg" style="--d:.22s">
+          <span class="idx mono">02 / 思理</span>
+          <h3>思理通达</h3>
+          <div class="sub">Cognitive Reasoning · Dynamic Decision</div>
+          <p>注视即推理的输入。看的结果进入推理链，边看边想、边想边看，在多模态场景中逐步收敛到判断与决策。</p>
+        </article>
+      </div>
+
+      <ul class="caps reveal">
+        <li class="stg" style="--d:.06s">
+          <span class="cn">主动感知</span><span class="en">Active Perception</span>
+        </li>
+        <li class="stg" style="--d:.14s">
+          <span class="cn">逐步推理</span><span class="en">Stepwise Reasoning</span>
+        </li>
+        <li class="stg" style="--d:.22s">
+          <span class="cn">动态决策</span><span class="en">Dynamic Decision</span>
+        </li>
+        <li class="stg" style="--d:.3s">
+          <span class="cn">多模态理解</span><span class="en">Multimodal Understanding</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="line">MindVista-AI · 新智视觉 —— 洞察心智全景，开拓人工智能新视界</div>
+    <div class="line mono">© 2026 MindVista-AI</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('.hero .grid, .reveal');
+
+  if (!('IntersectionObserver' in window)) {
+    for (var i = 0; i < targets.length; i++) targets[i].classList.add('in');
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  for (var j = 0; j < targets.length; j++) io.observe(targets[j]);
+})();
+</script>
+
+</body>
+</html>
